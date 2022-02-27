@@ -1,4 +1,3 @@
-import pandas as pd
 import numpy as np
 import statsmodels
 from statsmodels.tsa.holtwinters import ExponentialSmoothing, Holt, SimpleExpSmoothing
@@ -42,5 +41,5 @@ def sarimax(data_list, period):
     return yhat[0:period]
 
 
-def dinsurance():
+def appraisal_insurance():
     pass
