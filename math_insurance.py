@@ -1,4 +1,3 @@
-import pandas as pd
 import numpy as np
 import statsmodels
 from statsmodels.tsa.holtwinters import ExponentialSmoothing, Holt, SimpleExpSmoothing
@@ -11,6 +10,29 @@ def middle_value(data_list, step):
     for iter in range(int(len(data_list)/step)):
         res.append(sum([data_list[iter*step+i] for i in range(step)])/step)
     return res
+
+
+# def smoothing_middle(data_list, step):
+#     res = []
+#     for i in range(step):
+#         data_list.insert(0, data_list[0])
+#     for num, iter in enumerate(data_list, 0):
+#         res.append(sum(data_list[num:num+step])/step)
+#
+#     return res
+
+def smoothing_middle(data_list, step, cycle=2):
+
+    for c in range(cycle):
+
+        for i in range(step):
+            data_list.insert(0, data_list[0])
+        res = []
+        for num in range(len(data_list)):
+            res.append(sum(data_list[num:num+step])/len(data_list[num:num+step]))
+        data_list = res[step:]
+
+    return data_list
 
 
 def moving_average(a, n=3, post_mode=False):
@@ -40,7 +62,4 @@ def sarimax(data_list, period):
     model_fit = model.fit(disp=False)
     yhat = model_fit.predict(period)
     return yhat[0:period]
-
-
-def dinsurance():
-    pass
+    # return [i*-1 for i in yhat[0:period]]

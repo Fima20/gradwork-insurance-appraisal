@@ -2,13 +2,15 @@ from dataclasses import dataclass
 import functools
 import random
 
+from typing import List
+
 
 @dataclass
 class TypeInsurance:
     id_type: int
     name: str
     base_rate: float
-    parameters_ins: list[float]
+    parameters_ins: List[float]
     month_mode: bool = False
 
     def __post_init__(self):
@@ -24,7 +26,7 @@ class Contract:
     timestamp_from_: int
     timestamp_to_: int
     type_insurance: TypeInsurance
-    parameters: list[float]
+    parameters: List[float]
 
     def __post_init__(self):
         self.price = self.sum * self.type_insurance.price_ins * functools.reduce(lambda a, b: a * b, self.parameters)

@@ -67,13 +67,13 @@ if __name__ == '__main__':
             """
 
             # budget_les_pr = [0] + Company_budget_lesion_[0:60] + holt_winters.prediction(Company_budget_lesion_[0:60], 12)
-            budget_les_pr = [0] + Company_budget_lesion_[0:60] + math_method.holt_winters(math_method.moving_average(Company_budget_lesion_[0:60], n=4, zero_mode=True), 12)
-            budget_rolling_mean = math_method.moving_average(Company_budget_lesion_, n=4, post_mode=True)
+            budget_les_pr = [0] + Company_budget_lesion_[0:60] + math_insurance.holt_winters(math_insurance.moving_average(Company_budget_lesion_[0:60], n=4, zero_mode=True), 12)
+            budget_rolling_mean = math_insurance.moving_average(Company_budget_lesion_, n=4, post_mode=True)
 
             # matplotlibgraph.simple_graph([Company_budget_lesion_, budget_rolling_mean, budget_les_pr], range(73))
             # matplotlibgraph.simple_graph([Company_budget_lesion_[60:72], budget_rolling_mean[60:72], budget_les_pr[60:72]], range(12))
 
-            predictions_rolling_mean = math_method.moving_average(budget_les_pr[(60-3):72], n=4)
+            predictions_rolling_mean = math_insurance.moving_average(budget_les_pr[(60-3):72], n=4)
 
             print('Оценка по сумме:')
             print(sum(budget_rolling_mean[60:72] - budget_les_pr[60:72]))
@@ -83,15 +83,15 @@ if __name__ == '__main__':
             print(sum(np.cumsum(budget_les_pr[60:72])))
             print(sum(np.cumsum(Company_budget_lesion_[60:72])) - sum(np.cumsum(budget_les_pr[60:72])))
 
-            matplotlibgraph.simple_graph([math_method.moving_average(Company_budget_lesion_[60:72], n=4, post_mode=True), budget_les_pr[60:72]], range(12))
+            matplotlibgraph.simple_graph([math_insurance.moving_average(Company_budget_lesion_[60:72], n=4, post_mode=True), budget_les_pr[60:72]], range(12))
 
             # matplotlibgraph.simple_graph([budget_rolling_mean[60:72], predictions_rolling_mean], range(12))
             # matplotlibgraph.simple_graph([budget_rolling_mean[60:72] - predictions_rolling_mean], range(12))
 
         def method_second():
 
-            budget_lesion_ma = math_method.moving_average(Company_budget_lesion_[0:60], n=6, post_mode=True)
-            budget_lesion_prediction = math_method.sarimax(budget_lesion_ma, period=12)
+            budget_lesion_ma = math_insurance.moving_average(Company_budget_lesion_[0:60], n=6, post_mode=True)
+            budget_lesion_prediction = math_insurance.sarimax(budget_lesion_ma, period=12)
 
             print('Оценка(выплаты):')
             diff = sum(budget_lesion_prediction) - sum(Company_budget_lesion_[60:72])
@@ -102,8 +102,8 @@ if __name__ == '__main__':
             matplotlibgraph.simple_graph([Company_budget_lesion_[6:60], budget_lesion_ma], range(60-6))
             matplotlibgraph.simple_graph([Company_budget_lesion_[60:72], budget_lesion_prediction], range(12))
 
-            budget_income_ma = math_method.moving_average(Company_budget_income_[0:60], n=3, post_mode=True)
-            budget_income_prediction = math_method.holt_winters(budget_income_ma, period=12)
+            budget_income_ma = math_insurance.moving_average(Company_budget_income_[0:60], n=3, post_mode=True)
+            budget_income_prediction = math_insurance.holt_winters(budget_income_ma, period=12)
 
             print('Оценка(премии):')
             diff = sum(budget_income_prediction) - sum(Company_budget_income_[60:72])
