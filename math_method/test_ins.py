@@ -1,8 +1,6 @@
 import example
 import matplotlibgraph
 import math_insurance
-import pandas as pd
-import numpy as np
 from company_model import TypeInsurance, Contract, SimulatorInsurance
 from example import OSAGO, KASKO
 import random

@@ -1,8 +1,6 @@
 import matplotlib.pyplot as plt
 # from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
 # from plotly import graph_objs as go
-import pandas as pd
-import numpy as np
 # init_notebook_mode(connected=True)
 
 
