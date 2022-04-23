@@ -90,7 +90,7 @@ if __name__ == '__main__':
     budget_lesion_prediction = math_insurance.arima_model(smooth_budget_lesion, PERIOD_PREDICTION_MONTH)
 
     smooth_sum_contracts = math_insurance.smoothing_middle(Sum_contracts_[0:PERIOD_WORK_MONTH], SMOOTH_INTER)
-    sum_contracts_prediction = math_insurance.arima_model(smooth_sum_contracts, PERIOD_PREDICTION_MONTH)
+    sum_contracts_prediction = math_insurance.holt_winters(smooth_sum_contracts, PERIOD_PREDICTION_MONTH)
 
     res_budget = [Company_budget_[PERIOD_WORK_MONTH]]
     for iter in range(PERIOD_PREDICTION_MONTH):
@@ -104,7 +104,7 @@ if __name__ == '__main__':
     print(f"Погрешность {Company_budget_[-1] - res_budget[-1]}")
     print(f"Погрешность % {((Company_budget_[-1] - res_budget[-1]) / abs(Company_budget_[PERIOD_WORK_MONTH] - Company_budget_[-1])) * 100}")
 
-    # matplotlibgraph.simple_graph([Company_budget_lesion_[0:PERIOD_WORK * 12], smooth_budget_lesion])
-    matplotlibgraph.simple_graph([Sum_contracts_[0:PERIOD_WORK_MONTH], smooth_sum_contracts])
+    # matplotlibgraph.simple_graph([Company_budget_lesion_[0:PERIOD_WORK_MONTH], smooth_budget_lesion])
+    # matplotlibgraph.simple_graph([Sum_contracts_[0:PERIOD_WORK_MONTH], smooth_sum_contracts])
 
-    matplotlibgraph.simple_graph([Company_budget_, [i*0.95 for i in Company_budget_[0:PERIOD_WORK_MONTH]] + res_budget])
+    matplotlibgraph.simple_graph([Company_budget_, [i*0.99 for i in Company_budget_[0:PERIOD_WORK_MONTH]] + res_budget])
