@@ -38,7 +38,17 @@ def model_arima(data_list, period, p=3, q=0, d=4):
     model_fit = model.fit()
     return model_fit.predict()[0:period]
 
-min_allowable_income: float = 1000000
+
+def calc_coefficient_insurance():
+    pass
+
+
+def calc_recommended_coefficient_insurance(min_allowable_income: float,
+                                           budget_lesion_prediction: [float],
+                                           sum_contracts_prediction: [float]):
+
+    coefficient = ((min_allowable_income + sum(budget_lesion_prediction)) / sum(sum_contracts_prediction)) * 12
+    return coefficient
 
 
 def forecasting(capital_lesion: [int],
@@ -70,4 +80,4 @@ def forecasting(capital_lesion: [int],
         diff_budget_income = sum_contracts_prediction[iter] * KF / 12
         res_budget.append(res_budget[iter] + diff_budget_income - budget_lesion_prediction[iter])
 
-    return res_budget
+    return res_budget, budget_lesion_prediction, sum_contracts_prediction
