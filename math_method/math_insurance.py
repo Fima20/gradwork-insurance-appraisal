@@ -6,29 +6,19 @@ from statsmodels.tsa.statespace.sarimax import SARIMAX
 
 def middle_value(data_list, step):
     res = []
-    for iter in range(int(len(data_list)/step)):
-        res.append(sum([data_list[iter*step+i] for i in range(step)])/step)
+    for iter in range(int(len(data_list) / step)):
+        res.append(sum([data_list[iter * step + i] for i in range(step)]) / step)
     return res
 
 
-# def smoothing_middle(data_list, step):
-#     res = []
-#     for i in range(step):
-#         data_list.insert(0, data_list[0])
-#     for num, iter in enumerate(data_list, 0):
-#         res.append(sum(data_list[num:num+step])/step)
-#
-#     return res
-
 def smoothing_middle(data_list, step, cycle=2):
-
     for c in range(cycle):
 
         for i in range(step):
             data_list.insert(0, data_list[0])
         res = []
         for num in range(len(data_list)):
-            res.append(sum(data_list[num:num+step])/len(data_list[num:num+step]))
+            res.append(sum(data_list[num:num + step]) / len(data_list[num:num + step]))
         data_list = res[step:]
 
     return data_list
@@ -41,7 +31,7 @@ def moving_average(a, n=3, post_mode=False):
     if post_mode:
         return res[0:-1]
     else:
-        return np.concatenate(([0]*(len(a)-len(res)), res))
+        return np.concatenate(([0] * (len(a) - len(res)), res))
 
 
 def holt_winters(df, period):
@@ -62,3 +52,6 @@ def sarimax(data_list, period):
     yhat = model_fit.predict(period)
     return yhat[0:period]
     # return [i*-1 for i in yhat[0:period]]
+
+
+

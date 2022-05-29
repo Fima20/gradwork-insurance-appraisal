@@ -23,14 +23,14 @@ if __name__ == '__main__':
     # PERIOD_PREDICTION_MONTH = PERIOD_PREDICTION * 12
 
     PERIOD_WORK_MONTH = 150
-    PERIOD_PREDICTION_MONTH = 100
+    PERIOD_PREDICTION_MONTH = 20
 
     SMOOTH_INTER = 3
     kf = 0.004254
 
     sim = SimulatorInsurance(time_mode=True)
     create_contracts_uni(sim, OSAGO, month=PERIOD_WORK_MONTH + PERIOD_PREDICTION_MONTH)
-    Company_budget_income_, Company_budget_lesion_, Company_budget_, Sum_contracts_ = sim.simulator_period_trend(to_=PERIOD_WORK_MONTH + PERIOD_PREDICTION_MONTH, trend=example.example_trend_5)
+    Company_budget_income_, Company_budget_lesion_, Company_budget_, Sum_contracts_ = sim.simulator_period_trend(to_=PERIOD_WORK_MONTH + PERIOD_PREDICTION_MONTH, trend=example.example_trend_4)
     Company_budget_lesion_ = [x * (-1) for x in Company_budget_lesion_]
 
     # if False:
@@ -104,7 +104,7 @@ if __name__ == '__main__':
     print(f"Погрешность {Company_budget_[-1] - res_budget[-1]}")
     print(f"Погрешность % {((Company_budget_[-1] - res_budget[-1]) / abs(Company_budget_[PERIOD_WORK_MONTH] - Company_budget_[-1])) * 100}")
 
-    # matplotlibgraph.simple_graph([Company_budget_lesion_[0:PERIOD_WORK_MONTH], smooth_budget_lesion])
-    # matplotlibgraph.simple_graph([Sum_contracts_[0:PERIOD_WORK_MONTH], smooth_sum_contracts])
+    matplotlibgraph.simple_graph([Company_budget_lesion_[0:PERIOD_WORK_MONTH], smooth_budget_lesion])
+    matplotlibgraph.simple_graph([Sum_contracts_[0:PERIOD_WORK_MONTH], smooth_sum_contracts])
 
     matplotlibgraph.simple_graph([Company_budget_, [i*0.99 for i in Company_budget_[0:PERIOD_WORK_MONTH]] + res_budget])

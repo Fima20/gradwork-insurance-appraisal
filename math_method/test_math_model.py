@@ -175,9 +175,14 @@ if __name__ == '__main__':
             # print()
             # print()
 
-
-
-
+            # def smoothing_middle(data_list, step):
+            #     res = []
+            #     for i in range(step):
+            #         data_list.insert(0, data_list[0])
+            #     for num, iter in enumerate(data_list, 0):
+            #         res.append(sum(data_list[num:num+step])/step)
+            #
+            #     return res
 
 
 
