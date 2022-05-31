@@ -51,8 +51,8 @@ def calc_recommended_coefficient_insurance(min_allowable_income: float,
     return coefficient
 
 
-def forecasting(capital_lesion: [int],
-                sum_contracts: [int],
+def forecasting(capital_lesion: [float],
+                sum_contracts: [float],
                 last_budget: float,
                 PERIOD_PREDICTION_MONTH: int = 12,
                 SMOOTH_INTER: int = 3,

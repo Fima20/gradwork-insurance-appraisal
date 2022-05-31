@@ -1,4 +1,4 @@
-from company_model import TypeInsurance, Contract, SimulatorInsurance
+from math_method.company_model import TypeInsurance, Contract, SimulatorInsurance
 import random
 
 OSAGO = TypeInsurance(id_type=1291092,
