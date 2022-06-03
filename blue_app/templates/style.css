@@ -1,0 +1,10 @@
+a:hover{
+text-decoration: none; /* Убираем подчёркивание */
+color: #FFFAC0; /* Цвет ссылки */
+background: #98C1D9; /* Цвет фона */
+}
+
+
+.black-font{
+color:#3D3C42;
+}

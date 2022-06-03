@@ -2,3 +2,6 @@
 .idea/
 __pycache__/
 db_reinsurance/config.py
+/flask_app/static/
+/flask_app/config.py
+/blue_app/config.py
