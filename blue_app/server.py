@@ -30,8 +30,8 @@ def create_app():
     return app
 
 
-def runserver(app, host=SERVER_HOST, port=SERVER_PORT, debug=False):
-    server = threading.Thread(target=app.run(debug=debug), kwargs={'host': host, 'port': port})
+def runserver(app_flask, host=SERVER_HOST, port=SERVER_PORT, debug=False):
+    server = threading.Thread(target=app_flask.run(debug=debug, host=host, port=port))
     server.start()
 
 

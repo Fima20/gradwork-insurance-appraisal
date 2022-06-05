@@ -3,6 +3,7 @@ import requests
 import argparse
 import os
 import json
+import functools
 
 from flask import Blueprint, Flask, flash, request, session, redirect, url_for, render_template, send_from_directory
 from flask_cors import CORS, cross_origin
@@ -12,7 +13,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from config import SERVER_HOST, SERVER_PORT, UPLOAD_FOLDER
 from db_reinsurance import api_db
-from utils import login_check
+from utils import check_login
 
 main = Blueprint('main', __name__)
 
@@ -23,12 +24,8 @@ def index():
 
 
 @main.route('/profile')
+@check_login
 def profile():
-
-    if not login_check():
-        flash('Необходима авторизация')
-        return redirect(url_for('auth.login'))
-
     return render_template('profile.html', name=session["name"])
 
 
@@ -40,11 +37,14 @@ def shutdown():
 
 
 @main.route('/contracts')
+@check_login
 def contracts():
-
-    if not login_check():
-        flash('Необходима авторизация')
-        return redirect(url_for('auth.login'))
-
     return render_template('contracts.html')
+
+
+@main.route('/contracts/add')
+@check_login
+def contracts_add():
+    return render_template('contract_edit.html')
+
 

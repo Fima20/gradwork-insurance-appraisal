@@ -3,6 +3,7 @@ import requests
 import argparse
 import os
 import json
+import functools
 
 from flask import Blueprint, Flask, flash, request, session, redirect, url_for, render_template, send_from_directory
 from flask_cors import CORS, cross_origin
@@ -14,16 +15,20 @@ from config import SERVER_HOST, SERVER_PORT, UPLOAD_FOLDER
 from db_reinsurance import api_db
 
 
-def login_check():
+def check_loggedin():
     if 'loggedin' in session:
         return True
     return False
 
 
-# def login_check(func):
-#     def wrap(*args, **kwargs):
-#         if 'loggedin' in session:
-#             return func(*args, **kwargs)
-#         flash('Please login.')
-#         return redirect(url_for('auth.login'))
-#     return wrap
+def check_login(func):
+
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        if not check_loggedin():
+            flash('Необходима авторизация')
+            return redirect(url_for('auth.login'))
+        else:
+            return func(*args, **kwargs)
+
+    return wrapper

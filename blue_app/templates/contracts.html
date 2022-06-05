@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<nav class="panel black-font">
-  <p class="panel-heading">
-    Repositories
+<nav class="panel black-font frame-white">
+  <p class="panel-heading frame-white" style="font-weight: normal;">
+    Договора
   </p>
   <div class="panel-block">
     <p class="control has-icons-left">
@@ -14,56 +14,21 @@
     </p>
   </div>
   <p class="panel-tabs">
-    <a class="is-active">All</a>
-    <a>Public</a>
-    <a>Private</a>
-    <a>Sources</a>
-    <a>Forks</a>
+    <a class="is-active">Все</a>
+    <a>Только мои</a>
+    <a>Выплачены</a>
   </p>
-  <a class="panel-block is-active">
-    <span class="panel-icon">
-      <i class="fas fa-book" aria-hidden="true"></i>
-    </span>
-    bulma
-  </a>
-  <a class="panel-block">
-    <span class="panel-icon">
-      <i class="fas fa-book" aria-hidden="true"></i>
-    </span>
-    marksheet
-  </a>
-  <a class="panel-block">
-    <span class="panel-icon">
-      <i class="fas fa-book" aria-hidden="true"></i>
-    </span>
-    minireset.css
-  </a>
-  <a class="panel-block">
-    <span class="panel-icon">
-      <i class="fas fa-book" aria-hidden="true"></i>
-    </span>
-    jgthms.github.io
-  </a>
-  <a class="panel-block">
-    <span class="panel-icon">
-      <i class="fas fa-code-branch" aria-hidden="true"></i>
-    </span>
-    daniellowtw/infboard
-  </a>
-  <a class="panel-block">
-    <span class="panel-icon">
-      <i class="fas fa-code-branch" aria-hidden="true"></i>
-    </span>
-    mojs
-  </a>
-  <label class="panel-block">
-    <input type="checkbox">
-    remember me
-  </label>
+  <ul class="">
+    <li>
+      <a class="panel-block">Договор 1</a>
+    </li>
+    <li>
+      <a class="panel-block">Договор 2</a>
+    </li>
+  </ul>
   <div class="panel-block">
-    <button class="button is-link is-outlined is-fullwidth">
-      Reset all filters
-    </button>
+    <a href="{{ url_for('main.contracts.add') }}" class="button is-block is-outlined is-fullwidth button-green white-font">Добавить</a>
   </div>
+
 </nav>
 {% endblock %}

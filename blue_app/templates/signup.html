@@ -15,7 +15,7 @@
         {% with messages = get_flashed_messages() %}
         {% if messages %}
             <div class="notification is-danger">
-                {{ messages[0] }}. Go to <a href="{{ url_for('auth.login') }}">login page</a>.
+                {{ messages[0] }}. Перейти на  <a href="{{ url_for('auth.login') }}">страницу входа</a>.
             </div>
         {% endif %}
         {% endwith %}
@@ -57,7 +57,7 @@
                 </div>
             </div>
 
-            <button class="button is-block is-info is-large is-fullwidth" style="background-color:#AEAEAE;">Создать пользователя</button>
+            <button class="button is-block is-info is-large is-fullwidth button-grey">Создать пользователя</button>
         </form>
     </div>
 </div>

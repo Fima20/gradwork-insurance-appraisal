@@ -31,7 +31,7 @@ def login_post():
                                       f"FROM agent WHERE login = '{_login}';")
 
     if not agent or not check_password_hash(str(agent[1]), str(_password)):
-        flash('Please check your login details and try again.')
+        flash('Ошибка авторизации. Пожалуйста проверьте введенные вами данные и повторите попытку.')
         return redirect(url_for('auth.login'))
 
     session['loggedin'] = True
@@ -41,6 +41,11 @@ def login_post():
     session['sec_name'] = agent[4]
     session['login'] = agent[5]
     session['qualification'] = agent[6]
+
+    if request.form.getlist('not_exist'):
+        session.permanent = True
+    else:
+        session.permanent = False
 
     return redirect(url_for('main.profile'))
 
@@ -64,7 +69,7 @@ def signup_post():
     pas = api_db.db_command(command=f"SELECT password FROM agent WHERE login = '{_login}';")
 
     if pas:
-        flash('Login already exists')
+        flash('Пользователь с указаным логином уже существует')
         return redirect(url_for('auth.signup'))
 
     comp = api_db.add_agent(name=_name,
