@@ -1,6 +1,6 @@
 import psycopg2
-from db_reinsurance import layouts
-from db_reinsurance.config import host, user, password, db_name
+from reinsurance_db import layouts
+from reinsurance_db.config import host, user, password, db_name
 
 
 def exception_handling(func, *args, **kwargs):

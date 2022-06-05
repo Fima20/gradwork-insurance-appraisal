@@ -1,7 +1,7 @@
 /venv/
 .idea/
 __pycache__/
-db_reinsurance/config.py
+reinsurance_db/config.py
 /flask_app/static/
 /flask_app/config.py
 /blue_app/config.py

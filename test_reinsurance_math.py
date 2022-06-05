@@ -3,7 +3,7 @@ from math_method import matplotlibgraph
 from math_method import math_insurance
 from math_method.company_model import TypeInsurance, Contract, SimulatorInsurance
 from math_method.example import OSAGO, KASKO
-from math_reinsurance import math_reinsurance
+from reinsurance_math import math_reinsurance
 import random
 
 # PERIOD_WORK = 5
