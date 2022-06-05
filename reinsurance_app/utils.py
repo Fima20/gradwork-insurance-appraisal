@@ -12,7 +12,7 @@ from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from config import SERVER_HOST, SERVER_PORT, UPLOAD_FOLDER
-from db_reinsurance import api_db
+from reinsurance_db import api_db
 
 
 def check_loggedin():

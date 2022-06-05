@@ -9,9 +9,9 @@ from flask_cors import CORS, cross_origin
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 
-import db_reinsurance.api_db
+import reinsurance_db.api_db
 from config import SERVER_HOST, SERVER_PORT, UPLOAD_FOLDER
-from db_reinsurance import api_db
+from reinsurance_db import api_db
 
 from auth import auth as auth_blueprint
 from main import main as main_blueprint
