@@ -1,16 +1,104 @@
-{% extends "base.html" %}
+{% extends "contracts.html" %}
 
-{% block content %}
-<div class="column is-4 is-offset-4">
+{% block contract_edit %}
+
+    <p class="box frame-white">
+        Новый договор
+    </p>
 
     <div class="box">
-        <form method="POST" action="/login">
+        <form method="POST" action="/profile">
+
             <div class="field">
-                <div class="control">
-                    <input class="input is-large" type="text" name="login" placeholder="Логин" autofocus="">
-                </div>
+              <label class="label">Договор</label>
+              <input class="input" type="text" name="contract_code" placeholder="Код договора">
             </div>
+
+            <div class="field">
+              <label class="label">Вид страхования</label>
+              <div class="control">
+                  <div class="columns">
+                      <div class="column is-10">
+
+                           <select class="js-chosen input" name="type_insurance">
+                            <option value=""></option>
+                            <option value="367">Абаза</option>
+                            <option value="340">Абакан</option>
+                            <option value="369">Абдулино</option>
+                            <option value="370">Абинск</option>
+                            <option value="371">Агидель</option>
+                        </select>
+
+                        <script>
+                        $(document).ready(function(){
+                            $('.js-chosen').chosen({
+                                width: '100%',
+                                no_results_text: 'Совпадений не найдено',
+                                placeholder_text_single: 'Выберите вид страхования'
+                            });
+                        });
+                        </script>
+
+                      </div>
+                      <div class="column">
+                        <div class="check-material">
+                            <input id="new_contract" name="new_contract" type="checkbox">
+                            <label for="new_contract"></label>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+
+                {% if False %}
+                <p class="help is-danger">This email is invalid</p>
+                {% endif %}
+
+            </div>
+
+            <div class="field">
+              <label class="label">Компания (Филиал)</label>
+              <div class="control">
+                  <div class="columns">
+                      <div class="column is-10">
+
+                        <select class="js-chosen input" name="company">
+                            <option value=""></option>
+                            <option value="367">Абаза</option>
+                            <option value="340">Абакан</option>
+                            <option value="369">Абдулино</option>
+                            <option value="370">Абинск</option>
+                            <option value="371">Агидель</option>
+                        </select>
+
+                        <script>
+                        $(document).ready(function(){
+                            $('.js-chosen').chosen({
+                                width: '100%',
+                                no_results_text: 'Совпадений не найдено',
+                                placeholder_text_single: 'Выберите филиал'
+                            });
+                        });
+                        </script>
+
+                      </div>
+                      <div class="column">
+                        <div class="check-material">
+                            <input id="new_company" name="new_company" type="checkbox">
+                            <label for="new_company"></label>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+
+            </div>
+
+
+
+
         </form>
+
+
+
     </div>
-</div>
+
 {% endblock %}

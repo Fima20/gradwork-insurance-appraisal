@@ -1,34 +1,58 @@
 {% extends "base.html" %}
 
 {% block content %}
-<nav class="panel black-font frame-white">
-  <p class="panel-heading frame-white" style="font-weight: normal;">
-    Договора
-  </p>
-  <div class="panel-block">
-    <p class="control has-icons-left">
-      <input class="input" type="text" placeholder="Поиск">
-      <span class="icon is-left">
-        <i class="fas fa-search" aria-hidden="true"></i>
-      </span>
+<div class="columns">
+
+  <div class="column is-three-fifths">
+
+    <p class="box frame-white" style="font-weight: normal;">
+        Договора
     </p>
-  </div>
-  <p class="panel-tabs">
-    <a class="is-active">Все</a>
-    <a>Только мои</a>
-    <a>Выплачены</a>
-  </p>
-  <ul class="">
-    <li>
-      <a class="panel-block">Договор 1</a>
-    </li>
-    <li>
-      <a class="panel-block">Договор 2</a>
-    </li>
-  </ul>
-  <div class="panel-block">
-    <a href="{{ url_for('main.contracts_add') }}" class="button is-block is-outlined is-fullwidth button-green white-font">Добавить</a>
+
+    <div class="box black-font frame-white">
+      <div class="panel-block">
+        <p class="control has-icons-left">
+          <input class="input" type="text" placeholder="Поиск">
+          <span class="icon is-left">
+            <i class="fas fa-search" aria-hidden="true"></i>
+          </span>
+        </p>
+      </div>
+      <p class="panel-tabs">
+        <a class="is-active">Все</a>
+        <a>Только мои</a>
+        <a>Выплачены</a>
+      </p>
+
+      <div class="panel-tabs select is-multiple" >
+        <select multiple size="16" class="is-full" style="min-width: 100%;">
+          <option value="Argentina">Argentina</option>
+          <option value="Bolivia">Bolivia</option>
+          <option value="Brazil">Brazil</option>
+          <option value="Chile">Chile</option>
+          <option value="Colombia">Colombia</option>
+          <option value="Ecuador">Ecuador</option>
+          <option value="Guyana">Guyana</option>
+          <option value="Paraguay">Paraguay</option>
+          <option value="Peru">Peru</option>
+          <option value="Suriname">Suriname</option>
+          <option value="Uruguay">Uruguay</option>
+          <option value="Venezuela">Venezuela</option>
+        </select>
+      </div>
+
+      <div class="panel-block">
+        <a href="{{ url_for('main.contracts_add') }}" class="button is-block is-outlined is-fullwidth button-green white-font">Добавить</a>
+      </div>
+    </div>
+
   </div>
 
-</nav>
+  <div class="column" style="font-weight: normal;">
+    {% block contract_edit %}
+    {% endblock %}
+  </div>
+
+</div>
+
 {% endblock %}

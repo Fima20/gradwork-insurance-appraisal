@@ -19,6 +19,7 @@ main = Blueprint('main', __name__)
 
 
 @main.route('/')
+@check_login
 def index():
     return render_template('index.html')
 
@@ -26,7 +27,7 @@ def index():
 @main.route('/profile')
 @check_login
 def profile():
-    return render_template('profile.html', name=session["name"])
+    return render_template('profile.html')
 
 
 @main.route('/shutdown')
@@ -39,7 +40,8 @@ def shutdown():
 @main.route('/contracts')
 @check_login
 def contracts():
-    return render_template('contracts.html')
+    return redirect(url_for('main.contracts_add'))
+    #return render_template('contracts.html')
 
 
 @main.route('/contracts/add')

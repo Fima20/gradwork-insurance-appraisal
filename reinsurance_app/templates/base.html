@@ -5,16 +5,24 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ReInsurance - страховая оценка</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+    <title>ReInsurance - оценка видов деятельности</title>
+
     <link rel="stylesheet" type="text/css" href="../static/css/style.css" />
+    <link rel="stylesheet" href="../static/css/chosen.min.css">
+    <script src="../static/js/jquery-3.2.1.min.js"></script>
+    <script src="../static/js/chosen.jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
     <link rel="shortcut icon" href="{{ url_for('static', filename='reinsurance.png') }}" />
+
 </head>
 
 <body>
+
     <section class="hero is-primary is-fullheight">
 
+        {% if session['loggedin']==True %}
         <div class="hero-head frame-white">
             <nav class="navbar">
                 <div class="container">
@@ -48,6 +56,7 @@
                         <div class="navbar-end">
 
                             {% if session['name'] %}
+
                             <h1 class="navbar-item black-font">
                                 {{session['surname']}} {{session['name'][0]}}.{{session['sec_name'][0]}}.
                             </h1>
@@ -57,32 +66,46 @@
                             <a href="{{ url_for('auth.logout') }}" class="navbar-item may">
                                 Выйти
                             </a>
+
                             {% else %}
+
                             <a href="{{ url_for('auth.login') }}" class="navbar-item may">
                                 Вход
                             </a>
 
-                                {% if True %}
-                                <a href="{{ url_for('auth.signup') }}" class="navbar-item may">
-                                    Регистрация
-                                </a>
-                                {% endif %}
+                            {% if True %}
+                            <a href="{{ url_for('auth.signup') }}" class="navbar-item may">
+                                Регистрация
+                            </a>
+                            {% endif %}
 
                             {% endif %}
+
+
 
                         </div>
                     </div>
                 </div>
             </nav>
         </div>
+        {% endif %}
 
         <div class="hero-body frame-grey">
-            <div class="container has-text-centered">
+            <div class="container ">
                {% block content %}
                {% endblock %}
             </div>
         </div>
+
     </section>
 </body>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>ReInsurance</strong> by <a href="">Dimasik</a>. Bulma.
+    </p>
+  </div>
+</footer>
 
 </html>

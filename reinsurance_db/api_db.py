@@ -4,7 +4,6 @@ from reinsurance_db.config import host, user, password, db_name
 
 
 def exception_handling(func, *args, **kwargs):
-
     try:
         func(*args, **kwargs)
     except Exception as _ex:
@@ -14,7 +13,6 @@ def exception_handling(func, *args, **kwargs):
 
 
 def db_connect(func, autocommit=True):
-
     def wrap(*args, **kwargs):
 
         try:
@@ -39,7 +37,6 @@ def db_connect(func, autocommit=True):
 
 @db_connect
 def create_tables(connection):
-
     for iter_table in layouts.list_create_tables:
         with connection.cursor() as cursor:
             cursor.execute(iter_table)
@@ -47,7 +44,6 @@ def create_tables(connection):
 
 @db_connect
 def drop_db(connection):
-
     with connection.cursor() as cursor:
         cursor.execute(f"DROP SCHEMA public CASCADE;")
 
@@ -57,7 +53,6 @@ def drop_db(connection):
 
 @db_connect
 def db_command(connection, command=""):
-
     with connection.cursor() as cursor:
         cursor.execute(command)
         return cursor.fetchone()
@@ -71,7 +66,6 @@ def add_agent(connection,
               login="",
               hash_password="",
               qualification=""):
-
     with connection.cursor() as cursor:
         cursor.execute(f"INSERT INTO agent (name, surname, sec_name, login, password, qualification, admin) "
                        f"VALUES ('{name}', '{surname}', '{sec_name}', '{login}', '{hash_password}', '{qualification}', FALSE);")
@@ -80,5 +74,17 @@ def add_agent(connection,
     return True
 
 
+@db_connect
+def add_contract(connection,
+                 name="",
+                 surname="",
+                 sec_name="",
+                 login="",
+                 hash_password="",
+                 qualification=""):
+    with connection.cursor() as cursor:
+        cursor.execute(f"INSERT INTO agent (idclient, surname, sec_name, login, password, qualification, admin) "
+                       f"VALUES ('{name}', '{surname}', '{sec_name}', '{login}', '{hash_password}', '{qualification}', FALSE);")
+        print(f'[INFO][Database] Server: {cursor.fetchone()}')
 
-
+    return True

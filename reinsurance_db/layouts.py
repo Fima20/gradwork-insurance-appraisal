@@ -3,7 +3,7 @@ list_create_tables = [
 
     "CREATE TABLE client \
     (\
-    idclient SERIAL,\
+    idclient SERIAL PRIMARY KEY,\
     name VARCHAR(45) NOT NULL,\
     surname VARCHAR(45) NOT NULL,\
     sec_name VARCHAR(45) NOT NULL,\
@@ -13,13 +13,13 @@ list_create_tables = [
 
     "CREATE TABLE company\
     (\
-    idcompany SERIAL,\
+    idcompany SERIAL PRIMARY KEY,\
     name VARCHAR(45) NOT NULL\
     );",
 
     "CREATE TABLE agent\
     (\
-    idagent SERIAL,\
+    idagent SERIAL PRIMARY KEY,\
     name VARCHAR(45) NOT NULL,\
     surname VARCHAR(45) NOT NULL,\
     sec_name VARCHAR(45) NOT NULL,\
@@ -31,7 +31,7 @@ list_create_tables = [
 
     "CREATE TABLE insurance_type\
     (\
-    idinsurance_type SERIAL,\
+    idinsurance_type SERIAL PRIMARY KEY,\
     title VARCHAR(45) NOT NULL,\
     short_tilte VARCHAR(15) NOT NULL,\
     capital INT NOT NULL\
@@ -39,15 +39,15 @@ list_create_tables = [
 
     "CREATE TABLE unit\
     (\
-    idunit SERIAL,\
+    idunit SERIAL PRIMARY KEY,\
     name VARCHAR(45) NOT NULL,\
     small_name VARCHAR(4) NOT NULL\
     );",
 
     "CREATE TABLE contract\
     (\
-    idcontract SERIAL,\
-    id_client INT,\
+    idcontract SERIAL PRIMARY KEY,\
+    id_client INT UNIQUE,\
     id_company INT,\
     id_unit INT,\
     id_insurance_type INT,\
@@ -65,8 +65,8 @@ list_create_tables = [
 
     "CREATE TABLE payment\
     (\
-    idpayment SERIAL,\
-    id_contract INT,\
+    idpayment SERIAL PRIMARY KEY,\
+    id_contract INT UNIQUE,\
     id_unit INT,\
     FOREIGN KEY (id_contract) REFERENCES contract (idcontract),\
     FOREIGN KEY (id_unit) REFERENCES unit (idunit),\
