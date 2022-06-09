@@ -14,7 +14,7 @@ list_create_tables = [
     "CREATE TABLE company\
     (\
     idcompany SERIAL PRIMARY KEY,\
-    name VARCHAR(45) NOT NULL\
+    name VARCHAR(45) NOT NULL UNIQUE\
     );",
 
     "CREATE TABLE agent\
@@ -23,7 +23,7 @@ list_create_tables = [
     name VARCHAR(45) NOT NULL,\
     surname VARCHAR(45) NOT NULL,\
     sec_name VARCHAR(45) NOT NULL,\
-    login VARCHAR(100) NOT NULL,\
+    login VARCHAR(100) NOT NULL UNIQUE,\
     password VARCHAR(1000) NOT NULL,\
     qualification VARCHAR(100) NOT NULL,\
     admin BOOLEAN NOT NULL\
@@ -32,16 +32,16 @@ list_create_tables = [
     "CREATE TABLE insurance_type\
     (\
     idinsurance_type SERIAL PRIMARY KEY,\
-    title VARCHAR(45) NOT NULL,\
-    short_tilte VARCHAR(15) NOT NULL,\
+    title VARCHAR(45) NOT NULL UNIQUE,\
+    short_title VARCHAR(15) NOT NULL UNIQUE,\
     capital INT NOT NULL\
     );",
 
     "CREATE TABLE unit\
     (\
     idunit SERIAL PRIMARY KEY,\
-    name VARCHAR(45) NOT NULL,\
-    small_name VARCHAR(4) NOT NULL\
+    name VARCHAR(45) NOT NULL UNIQUE,\
+    small_name VARCHAR(4) NOT NULL UNIQUE\
     );",
 
     "CREATE TABLE contract\

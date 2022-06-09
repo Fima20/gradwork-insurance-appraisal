@@ -4,6 +4,7 @@ import api_db
 
 api_db.drop_db()
 api_db.create_tables()
+api_db.add_default_unit()
 
 str_command = 'SELECT version();'
 api_db.db_command(command=str_command)

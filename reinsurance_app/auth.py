@@ -35,7 +35,7 @@ def login_post():
         return redirect(url_for('auth.login'))
 
     session['loggedin'] = True
-    session['id'] = agent[0]
+    session['idagent'] = agent[0]
     session['name'] = agent[2]
     session['surname'] = agent[3]
     session['sec_name'] = agent[4]

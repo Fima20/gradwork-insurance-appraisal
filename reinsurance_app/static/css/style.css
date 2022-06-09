@@ -58,6 +58,10 @@ opacity: 0.9;
 .check-material input[type="checkbox"]{display:none}
 .check-material input[type="checkbox"]:checked + label{background:#48c78e;border-color:#48c78e}
 .check-material input[type="checkbox"]:checked + label:after{transform:scale(1.3)}
-.check-material label{display:block;box-sizing:border-box;width:1.5em;height:1.5em;background:#FFFFFF;border:1px solid #DADADA;border-radius:10%;position:relative;cursor:pointer;transition:.2s}
+.check-material label{display:block;box-sizing:border-box;width:2.25em;height:2.25em;background:#FFFFFF;border:1px solid #DADADA;border-radius:10%;position:relative;cursor:pointer;transition:.2s}
 .check-material label:after{content:'';display:block;height:100%;width:100%;background-size:contain;transform:scale(0);transition:.2s}
 .check-material label:active:before{background:#bfbfbf}
+
+.input input{
+   margin-bottom: 0.75em;
+}

@@ -1,0 +1,80 @@
+{% extends "contracts.html" %}
+
+{% block contract_edit %}
+
+    <p class="box frame-white">
+        Новый договор
+    </p>
+
+    {% if contract_status=="update" %}
+    <div class="notification is-link">
+        Договор успешно обновлен
+    </div>
+    {% elif contract_status=="create" %}
+    <div class="notification is-success">
+        Договор успешно добавлен
+    </div>
+    {% elif contract_status=="error" %}
+    <div class="notification is-danger">
+        Произошла ошибка добавления или обновления договора. Проверьте поля заполнения.
+    </div>
+    {% endif %}
+
+    <div class="box">
+        <form method="POST" action="/contracts/add">
+
+            <div class="field">
+              <label class="label">Клиент</label>
+              <input class="input" type="text" name="client_name" placeholder="Имя">
+              <input class="input" type="text" name="client_surname" placeholder="Фамилия">
+              <input class="input" type="text" name="client_sec_name" placeholder="Отчество">
+              <input class="input" type="number" name="client_passport_series" placeholder="Серия паспорта">
+              <input class="input" type="number" name="client_passport_id" placeholder="Номер паспорта">
+            </div>
+
+            <div class="field">
+              <label class="label">Компания (Филиал)</label>
+              <input class="input" type="text" name="company_name" placeholder="Наименование организации">
+            </div>
+
+            <div class="field">
+              <label class="label">Агент</label>
+              <input class="input" type="text" name="agent_name" placeholder="Код договора" readonly="readonly" value="{{session['surname']}} {{session['name']}} {{session['sec_name']}}">
+            </div>
+
+            <div class="field">
+              <label class="label">Вид страхования</label>
+              <input class="input" type="text" name="type_insurance_name" placeholder="Наименование вида страхования">
+              <input class="input" type="text" name="type_insurance_small_name" placeholder="Краткое наименование">
+              <input class="input" type="number" name="type_insurance_capital" placeholder="Капитал">
+            </div>
+
+            <div class="field">
+              <label class="label">Сумма страхования</label>
+              <input class="input" type="number" name="insurance_amount" placeholder="Сумма">
+            </div>
+
+             <div class="field">
+              <label class="label">Страховая премия</label>
+              <input class="input" type="number" name="insurance_payment" placeholder="Премиальная выплата">
+            </div>
+
+            <div class="field">
+              <label class="label">Дата начала действия договора</label>
+              <input class="input" type="date" name="date_start" placeholder="Дата начала">
+            </div>
+
+            <div class="field">
+              <label class="label">Дата окончания действия договора</label>
+              <input class="input" type="date" name="date_stop" placeholder="Дата окончания">
+            </div>
+
+            <button class="button is-block is-outlined is-fullwidth button-green white-font">Создать договор</button>
+
+        </form>
+
+
+
+    </div>
+
+{% endblock %}
