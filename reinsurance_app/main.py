@@ -4,6 +4,7 @@ import argparse
 import os
 import json
 import functools
+import utils
 
 from flask import Blueprint, Flask, flash, request, session, redirect, url_for, render_template, send_from_directory
 from flask_cors import CORS, cross_origin
@@ -14,6 +15,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from config import SERVER_HOST, SERVER_PORT, UPLOAD_FOLDER
 from reinsurance_db import api_db
 from utils import check_login
+
+DEFAULT_LOAD_IN_PAGE = 12
 
 main = Blueprint('main', __name__)
 
@@ -40,22 +43,35 @@ def shutdown():
 @main.route('/contracts', methods=['GET'])
 @check_login
 def contracts():
-    _contracts = api_db.get_contracts()
-    return render_template('contracts.html', contracts_list=_contracts)
-    # return render_template('contract_update.html')
-    # return render_template('contracts.html')
+    return redirect(url_for('main.contracts_add'))
 
 
 @main.route('/contracts/add', methods=['GET'])
 @check_login
-def contracts_add():
-    return render_template('contract_update.html')
+def contracts_add(num_contracts=DEFAULT_LOAD_IN_PAGE):
+    data_contract_list = utils.list_dict_contracts(api_db.get_contracts()[0:num_contracts], num_contracts)
+    return render_template('contract_update.html',
+                           data_contract_list=data_contract_list,
+                           not_button_add=True)
+
+
+@main.route("/contracts/add/<int:id_contract>")
+@check_login
+def contract_add_get(id_contract,
+                     num_contracts=DEFAULT_LOAD_IN_PAGE,
+                     *args, **kwargs):
+    data_contract = utils.dict_contracts(id_contract)
+    data_contract_list = utils.list_dict_contracts(api_db.get_contracts()[0:num_contracts], num_contracts)
+    print("asdasd" + str(*args) + str(**kwargs))
+    return render_template('contract_update.html',
+                           data_contract_list=data_contract_list,
+                           data_contract=data_contract,
+                           *args, **kwargs)
 
 
 @main.route('/contracts/add', methods=['POST'])
 @check_login
 def contracts_add_post():
-
     company_name = request.form.get('company_name')
     id_company = api_db.getid_company(name=company_name)
     if id_company:
@@ -84,9 +100,9 @@ def contracts_add_post():
         id_client = api_db.getid_client(passport_series=passport_series, passport_id=passport_id)
     if not contract_create: return render_template('contract_update.html', contract_status="error")
 
-    title = request.form.get('client_passport_id')
+    title = request.form.get('type_insurance_name')
     short_title = request.form.get('type_insurance_small_name')
-    id_insurance_type = api_db.getid_insurance_type(title=title)
+    id_insurance_type = api_db.getid_insurance_type(title=title, short_title=short_title)
     if id_insurance_type:
         contract_create = api_db.update_insurance_type(title=title,
                                                        short_title=request.form.get('type_insurance_small_name'),
@@ -118,7 +134,7 @@ def contracts_add_post():
                                date_start=date_start,
                                date_stop=date_stop,
                                idcontract=id_contract)
-        return render_template('contract_update.html', contract_status="update")
+        contract_status = "update"
     else:
         api_db.add_contract(id_client=id_client,
                             id_company=id_company,
@@ -129,5 +145,8 @@ def contracts_add_post():
                             insurance_payment=insurance_payment,
                             date_start=date_start,
                             date_stop=date_stop)
+        contract_status = "create"
 
-        return render_template('contract_update.html', contract_status="create")
+    return redirect(url_for('main.contract_add_get',
+                            id_contract=id_contract,
+                            contract_status=contract_status))

@@ -24,19 +24,28 @@
         <a>Выплачены</a>
       </p>
 
-      <div class="panel-tabs select is-multiple" >
+      <div class="panel-block height-block">
 
-        <select multiple size="16" class="is-full" style="min-width: 100%;">
-          <option value="Argentina">Argentina</option>
-          {% for contract in contracts_list %}
-          <option value={{contract[0]}}>{{contract[1]}}</option>
+        <ul class="panel width-block height-block">
+          {% for data_contract in data_contract_list %}
+          <li class="width-block">
+            <a class="panel-block width-block" href="{{url_for('main.contract_add_get', id_contract=data_contract['idcontract'])}}">
+              {{data_contract['idcontract']}} {{data_contract['company']['name']}} {{data_contract['insurance_type']['short_title']}}
+              {{data_contract['client']['surname']}} {{data_contract['client']['name'][0]}}.{{data_contract['client']['sec_name'][0]}}.
+              {{data_contract['agent']['surname']}}
+            </a>
+          </li>
           {% endfor %}
-        </select>
+        </ul>
+
       </div>
 
+      {% if not not_button_add %}
       <div class="panel-block">
         <a href="{{ url_for('main.contracts_add') }}" class="button is-block is-outlined is-fullwidth button-green white-font">Добавить</a>
       </div>
+      {% endif %}
+
     </div>
 
   </div>

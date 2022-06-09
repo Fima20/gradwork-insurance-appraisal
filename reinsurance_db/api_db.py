@@ -1,6 +1,7 @@
 import psycopg2
 from reinsurance_db import layouts
 from reinsurance_db.config import host, user, password, db_name
+from reinsurance_app import utils
 
 
 def exception_handling(func, *args, **kwargs):
@@ -248,3 +249,49 @@ def get_contracts(connection):
     contract = cursor.fetchall()
     return contract
 
+
+@db_connect
+def get_client(connection, id_client):
+    with connection.cursor() as cursor:
+        cursor.execute(f"SELECT * FROM client WHERE idclient={id_client};")
+        return cursor.fetchone()
+
+
+@db_connect
+def get_contract(connection, id_contract):
+    with connection.cursor() as cursor:
+        cursor.execute(f"SELECT * FROM contract WHERE idcontract={id_contract};")
+        return cursor.fetchone()
+
+
+@db_connect
+def get_company(connection, id_company):
+    with connection.cursor() as cursor:
+        cursor.execute(f"SELECT * FROM company WHERE idcompany={id_company};")
+        return cursor.fetchone()
+
+
+@db_connect
+def get_insurance_type(connection, id_insurance_type):
+    with connection.cursor() as cursor:
+        cursor.execute(f"SELECT * FROM insurance_type WHERE idinsurance_type={id_insurance_type};")
+        return cursor.fetchone()
+
+
+@db_connect
+def get_agent(connection, id_agent):
+    with connection.cursor() as cursor:
+        cursor.execute(f"SELECT * FROM agent WHERE idagent={id_agent};")
+        return cursor.fetchone()
+
+
+@db_connect
+def get_full_contract(connection, id_contract):
+    with connection.cursor() as cursor:
+        cursor.execute(f"SELECT * "
+                       f"FROM contract, client, company, agent, insurance_type "
+                       f"WHERE contract.id_client = client.idclient AND "
+                       f"contract.id_company=idcompany AND contract.id_agent=idagent AND "
+                       f"contract.id_insurance_type=idinsurance_type AND idcontract={id_contract};")
+
+        return cursor.fetchone()

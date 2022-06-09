@@ -2,9 +2,17 @@
 
 {% block contract_edit %}
 
+    {% if not data_contract %}
     <p class="box frame-white">
         Новый договор
     </p>
+    {% else %}
+    <p class="box frame-white">
+    {{data_contract['idcontract']}} {{data_contract['company']['name']}} {{data_contract['insurance_type']['short_title']}}
+    {{data_contract['client']['surname']}} {{data_contract['client']['name'][0]}}.{{data_contract['client']['sec_name'][0]}}.
+    {{data_contract['agent']['surname']}}
+    </p>
+    {% endif %}
 
     {% if contract_status=="update" %}
     <div class="notification is-link">
@@ -20,61 +28,122 @@
     </div>
     {% endif %}
 
-    <div class="box">
-        <form method="POST" action="/contracts/add">
+    {% if not data_contract %}
 
-            <div class="field">
-              <label class="label">Клиент</label>
-              <input class="input" type="text" name="client_name" placeholder="Имя">
-              <input class="input" type="text" name="client_surname" placeholder="Фамилия">
-              <input class="input" type="text" name="client_sec_name" placeholder="Отчество">
-              <input class="input" type="number" name="client_passport_series" placeholder="Серия паспорта">
-              <input class="input" type="number" name="client_passport_id" placeholder="Номер паспорта">
-            </div>
+    <div class="box data">
+            <form method="POST" action="/contracts/add">
 
-            <div class="field">
-              <label class="label">Компания (Филиал)</label>
-              <input class="input" type="text" name="company_name" placeholder="Наименование организации">
-            </div>
+                <div class="field">
+                  <label class="label">Клиент</label>
+                  <input class="input" type="text" name="client_name" placeholder="Имя">
+                  <input class="input" type="text" name="client_surname" placeholder="Фамилия">
+                  <input class="input" type="text" name="client_sec_name" placeholder="Отчество">
+                  <input class="input" type="number" name="client_passport_series" placeholder="Серия паспорта">
+                  <input class="input" type="number" name="client_passport_id" placeholder="Номер паспорта">
+                </div>
 
-            <div class="field">
-              <label class="label">Агент</label>
-              <input class="input" type="text" name="agent_name" placeholder="Код договора" readonly="readonly" value="{{session['surname']}} {{session['name']}} {{session['sec_name']}}">
-            </div>
+                <div class="field">
+                  <label class="label">Компания (Филиал)</label>
+                  <input class="input" type="text" name="company_name" placeholder="Наименование организации">
+                </div>
 
-            <div class="field">
-              <label class="label">Вид страхования</label>
-              <input class="input" type="text" name="type_insurance_name" placeholder="Наименование вида страхования">
-              <input class="input" type="text" name="type_insurance_small_name" placeholder="Краткое наименование">
-              <input class="input" type="number" name="type_insurance_capital" placeholder="Капитал">
-            </div>
+                <div class="field">
+                  <label class="label">Агент</label>
+                  <input class="input" type="text" name="agent_name" placeholder="Код договора" readonly="readonly" value="{{session['surname']}} {{session['name']}} {{session['sec_name']}}">
+                </div>
 
-            <div class="field">
-              <label class="label">Сумма страхования</label>
-              <input class="input" type="number" name="insurance_amount" placeholder="Сумма">
-            </div>
+                <div class="field">
+                  <label class="label">Вид страхования</label>
+                  <input class="input" type="text" name="type_insurance_name" placeholder="Наименование вида страхования">
+                  <input class="input" type="text" name="type_insurance_small_name" placeholder="Краткое наименование">
+                  <input class="input" type="number" name="type_insurance_capital" placeholder="Капитал">
+                </div>
 
-             <div class="field">
-              <label class="label">Страховая премия</label>
-              <input class="input" type="number" name="insurance_payment" placeholder="Премиальная выплата">
-            </div>
+                <div class="field">
+                  <label class="label">Сумма страхования</label>
+                  <input class="input" type="number" name="insurance_amount" placeholder="Сумма">
+                </div>
 
-            <div class="field">
-              <label class="label">Дата начала действия договора</label>
-              <input class="input" type="date" name="date_start" placeholder="Дата начала">
-            </div>
+                 <div class="field">
+                  <label class="label">Страховая премия</label>
+                  <input class="input" type="number" name="insurance_payment" placeholder="Премиальная выплата">
+                </div>
 
-            <div class="field">
-              <label class="label">Дата окончания действия договора</label>
-              <input class="input" type="date" name="date_stop" placeholder="Дата окончания">
-            </div>
+                <div class="field">
+                  <label class="label">Дата начала действия договора</label>
+                  <input class="input" type="date" name="date_start" placeholder="Дата начала">
+                </div>
 
-            <button class="button is-block is-outlined is-fullwidth button-green white-font">Создать договор</button>
+                <div class="field">
+                  <label class="label">Дата окончания действия договора</label>
+                  <input class="input" type="date" name="date_stop" placeholder="Дата окончания">
+                </div>
 
-        </form>
+                <button class="button is-block is-outlined is-fullwidth button-green white-font">Создать договор</button>
+
+            </form>
+
+        </div>
+
+    {% else %}
+
+    <div class="box data">
+            <form method="POST" action="/contracts/add">
+
+                <div class="field">
+                  <label class="label">Клиент</label>
+                  <input class="input" type="text" name="client_name" placeholder="Имя" value="{{data_contract['client']['name']}}">
+                  <input class="input" type="text" name="client_surname" placeholder="Фамилия" value="{{data_contract['client']['surname']}}">
+                  <input class="input" type="text" name="client_sec_name" placeholder="Отчество" value="{{data_contract['client']['sec_name']}}">
+                  <input class="input" type="number" name="client_passport_series" placeholder="Серия паспорта" value="{{data_contract['client']['passport_series']}}">
+                  <input class="input" type="number" name="client_passport_id" placeholder="Номер паспорта" value="{{data_contract['client']['passport_id']}}">
+                </div>
+
+                <div class="field">
+                  <label class="label">Компания (Филиал)</label>
+                  <input class="input" type="text" name="company_name" placeholder="Наименование организации" value="{{data_contract['company']['name']}}">
+                </div>
+
+                <div class="field">
+                  <label class="label">Агент</label>
+                  <input class="input" type="text" name="agent_name" placeholder="Код договора" readonly="readonly" value="{{data_contract['agent']['surname']}} {{data_contract['agent']['name']}} {{data_contract['agent']['sec_name']}}">
+                </div>
+
+                <div class="field">
+                  <label class="label">Вид страхования</label>
+                  <input class="input" type="text" name="type_insurance_name" placeholder="Наименование вида страхования" value="{{data_contract['insurance_type']['title']}}">
+                  <input class="input" type="text" name="type_insurance_small_name" placeholder="Краткое наименование" value="{{data_contract['insurance_type']['short_title']}}">
+                  <input class="input" type="number" name="type_insurance_capital" placeholder="Капитал" value="{{data_contract['insurance_type']['capital']}}">
+                </div>
+
+                <div class="field">
+                  <label class="label">Сумма страхования</label>
+                  <input class="input" type="number" name="insurance_amount" placeholder="Сумма" value="{{data_contract['insurance_amount']}}">
+                </div>
+
+                 <div class="field">
+                  <label class="label">Страховая премия</label>
+                  <input class="input" type="number" name="insurance_payment" placeholder="Премиальная выплата" value="{{data_contract['insurance_payment']}}">
+                </div>
+
+                <div class="field">
+                  <label class="label">Дата начала действия договора</label>
+                  <input class="input" type="date" name="date_start" placeholder="Дата начала" value="{{data_contract['date_start']}}">
+                </div>
+
+                <div class="field">
+                  <label class="label">Дата окончания действия договора</label>
+                  <input class="input" type="date" name="date_stop" placeholder="Дата окончания" value="{{data_contract['date_stop']}}">
+                </div>
+
+                <button class="button is-block is-outlined is-fullwidth button-blue white-font">Изменить</button>
+
+            </form>
+
+        </div>
+
+    {% endif %}
 
 
-
-    </div>
 
 {% endblock %}
