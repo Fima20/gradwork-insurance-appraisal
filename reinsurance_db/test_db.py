@@ -4,7 +4,7 @@ import processing_db
 import api_db
 
 #processing_db.rebuild()
-processing_db.db_filling_contracts()
+processing_db.db_filling_contracts(num_contracts=5)
 #print(api_db.get_full_contract(id_contract=30))
 
 # try:

@@ -23,9 +23,9 @@ def rebuild():
     api_db.db_command(command=str_command)
 
 
-def db_filling_contracts():
+def db_filling_contracts(num_contracts=10):
 
-    num_contracts = 60
+
     KF = 0.004254
     dif_kf = 0.1
     max_month = 24

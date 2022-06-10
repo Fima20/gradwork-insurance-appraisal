@@ -70,7 +70,6 @@ def add_agent(connection,
     with connection.cursor() as cursor:
         cursor.execute(f"INSERT INTO agent (name, surname, sec_name, login, password, qualification, admin) "
                        f"VALUES ('{name}', '{surname}', '{sec_name}', '{login}', '{hash_password}', '{qualification}', FALSE);")
-        # print(f'[INFO][Database] Server: {cursor.fetchone()}')
 
     return True
 
