@@ -20,8 +20,9 @@ def debug_time(function):
     def wrapper(*args, **kwargs):
         start_time = time.perf_counter_ns()
         res = function(*args, **kwargs)
-        print(str(function.__name__) + " - " + str((time.perf_counter_ns() - start_time)/100000))
+        print(str(function.__name__) + " - " + str((time.perf_counter_ns() - start_time) / 100000))
         return res
+
     return wrapper
 
 
@@ -52,7 +53,7 @@ def check_login(func):
     return wrapper
 
 
-def dict_contracts_old(id_contract):
+def dict_contracts_db_old(id_contract):
     contract_db = api_db.get_contract(id_contract=id_contract)
 
     client_db = api_db.get_client(id_client=contract_db[1])
@@ -88,7 +89,7 @@ def dict_contracts_old(id_contract):
     return data_contract
 
 
-def dict_contracts(id_contract):
+def dict_contracts_db(id_contract):
     contract_db = api_db.get_full_contract(id_contract=id_contract)
 
     client = {'name': contract_db[11],
@@ -120,9 +121,55 @@ def dict_contracts(id_contract):
     return data_contract
 
 
-def list_dict_contracts(list_contract, num=10):
+def list_dict_contracts_db(list_contract, num=10):
     res_list = []
     if num > len(list_contract): num = len(list_contract)
     for iter in range(num):
-        res_list.append(dict_contracts(list_contract[iter][0]))
+        res_list.append(dict_contracts_db(list_contract[iter][0]))
     return res_list
+
+
+def dict_contracts_value(id_agent=None,
+                         company_name=None,
+                         passport_series=None,
+                         passport_id=None,
+                         client_name=None,
+                         client_surname=None,
+                         client_sec_name=None,
+                         insurance_type_title=None,
+                         insurance_type_short_title=None,
+                         insurance_type_capital=None,
+                         contract_insurance_amount=None,
+                         contract_insurance_payment=None,
+                         contract_date_start=None,
+                         contract_date_stop=None):
+
+    agent = api_db.get_agent(id_agent=id_agent)
+
+    client = {'name': client_name,
+              'surname': client_surname,
+              'sec_name': client_sec_name,
+              'passport_series': passport_series,
+              'passport_id': passport_id}
+
+    company = {'name': company_name}
+
+    insurance_type = {'title': insurance_type_title,
+                      'short_title': insurance_type_short_title,
+                      'capital': insurance_type_capital}
+
+    agent = {'name': agent[1],
+             'surname': agent[2],
+             'sec_name': agent[3]}
+
+    data_contract = {'client': client,
+                     'company': company,
+                     'insurance_type': insurance_type,
+                     'agent': agent,
+                     'insurance_amount': contract_insurance_amount,
+                     'insurance_payment': contract_insurance_payment,
+                     'date_start': contract_date_start,
+                     'date_stop': contract_date_stop,
+                     'idcontract': None}
+
+    return data_contract

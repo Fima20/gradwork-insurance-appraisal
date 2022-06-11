@@ -59,6 +59,89 @@ def db_command(connection, command=""):
         return cursor.fetchone()
 
 
+def complex_update_contract(id_agent=None,
+                            id_unit=None,
+                            company_name=None,
+                            passport_series=None,
+                            passport_id=None,
+                            client_name=None,
+                            client_surname=None,
+                            client_sec_name=None,
+                            insurance_type_title=None,
+                            insurance_type_short_title=None,
+                            insurance_type_capital=None,
+                            contract_insurance_amount=None,
+                            contract_insurance_payment=None,
+                            contract_date_start=None,
+                            contract_date_stop=None):
+    id_company = getid_company(name=company_name)
+    if id_company:
+        company_create = update_company(name=company_name, idcompany=id_company)
+    else:
+        company_create = add_company(name=company_name)
+        id_company = getid_company(name=company_name)
+    if not company_create: return "error", None
+
+    id_client = getid_client(passport_series=passport_series, passport_id=passport_id)
+    if id_client:
+        client_create = update_client(name=client_name,
+                                      surname=client_surname,
+                                      sec_name=client_sec_name,
+                                      passport_series=passport_series,
+                                      passport_id=passport_id,
+                                      idclient=id_client)
+    else:
+        client_create = add_client(name=client_name,
+                                   surname=client_surname,
+                                   sec_name=client_sec_name,
+                                   passport_series=passport_series,
+                                   passport_id=passport_id)
+        id_client = getid_client(passport_series=passport_series, passport_id=passport_id)
+    if not client_create: return "error", None
+
+    id_insurance_type = getid_insurance_type(title=insurance_type_title, short_title=insurance_type_short_title)
+    if id_insurance_type:
+        insurance_type_create = update_insurance_type(title=insurance_type_title,
+                                                      short_title=insurance_type_short_title,
+                                                      capital=insurance_type_capital,
+                                                      idinsurance_type=id_insurance_type)
+    else:
+        insurance_type_create = add_insurance_type(title=insurance_type_title,
+                                                   short_title=insurance_type_short_title,
+                                                   capital=insurance_type_capital)
+        id_insurance_type = getid_insurance_type(title=insurance_type_title)
+    if not insurance_type_create: return "error", None
+
+    id_contract = getid_contract(id_client=id_client)
+    if id_contract:
+        contract_create = update_contract(id_client=id_client,
+                                          id_company=id_company,
+                                          id_unit=id_unit,
+                                          id_insurance_type=id_insurance_type,
+                                          id_agent=id_agent,
+                                          insurance_amount=contract_insurance_amount,
+                                          insurance_payment=contract_insurance_payment,
+                                          date_start=contract_date_start,
+                                          date_stop=contract_date_stop,
+                                          idcontract=id_contract)
+        contract_status = "update"
+    else:
+        contract_create = add_contract(id_client=id_client,
+                                       id_company=id_company,
+                                       id_unit=id_unit,
+                                       id_insurance_type=id_insurance_type,
+                                       id_agent=id_agent,
+                                       insurance_amount=contract_insurance_amount,
+                                       insurance_payment=contract_insurance_payment,
+                                       date_start=contract_date_start,
+                                       date_stop=contract_date_stop)
+        id_contract = getid_contract(id_client=id_client)
+        contract_status = "create"
+    if not contract_create: return "error", None
+
+    return contract_status, id_contract
+
+
 @db_connect
 def add_agent(connection,
               name="",
@@ -108,7 +191,8 @@ def getid_company(connection, name):
 @db_connect
 def getid_insurance_type(connection, title, short_title):
     with connection.cursor() as cursor:
-        cursor.execute(f"SELECT idinsurance_type FROM insurance_type WHERE title='{title}' OR short_title='{short_title}';")
+        cursor.execute(
+            f"SELECT idinsurance_type FROM insurance_type WHERE title='{title}' OR short_title='{short_title}';")
         return cursor.fetchone()[0]
 
 
@@ -214,8 +298,9 @@ def update_insurance_type(connection,
                           capital="",
                           idinsurance_type=""):
     with connection.cursor() as cursor:
-        cursor.execute(f"UPDATE insurance_type SET title='{title}', short_title='{short_title}', capital={capital} WHERE "
-                       f"idinsurance_type={idinsurance_type};")
+        cursor.execute(
+            f"UPDATE insurance_type SET title='{title}', short_title='{short_title}', capital={capital} WHERE "
+            f"idinsurance_type={idinsurance_type};")
 
     return True
 

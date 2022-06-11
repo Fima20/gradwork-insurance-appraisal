@@ -7,11 +7,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ReInsurance - оценка видов деятельности</title>
 
+
     <link rel="stylesheet" href="https://bulma.io/css/bulma-docs.min.css?v=202206061014" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
     <link rel="shortcut icon" href="{{ url_for('static', filename='reinsurance.png') }}" />
 
 </head>
+
+{% if contract_status=="update" %}
+
+    <div class="notification is-link ">
+        Договор успешно обновлен
+    </div>
+{% elif contract_status=="create" %}
+    <div class="notification is-success ">
+        Договор успешно добавлен
+    </div>
+{% elif contract_status=="error" %}
+    <div class="notification is-danger ">
+        Произошла ошибка добавления или обновления договора. Проверьте поля заполнения.
+    </div>
+{% endif %}
 
 <body>
 

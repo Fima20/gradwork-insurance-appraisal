@@ -91,7 +91,6 @@ def signup_post():
             }
         }
 
-        #return json.dumps(data)
         return redirect(url_for('auth.login'))
 
     return redirect(url_for('auth.signup'))
