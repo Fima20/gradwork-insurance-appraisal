@@ -12,6 +12,7 @@ from flask_cors import CORS, cross_origin
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_modals import Modal
 
 from config import SERVER_HOST, SERVER_PORT, UPLOAD_FOLDER
 from reinsurance_db import api_db
@@ -107,6 +108,7 @@ def contracts_add_post():
                                                             contract_date_start=contract_date_start,
                                                             contract_date_stop=contract_date_stop)
 
+    print(id_contract_db)
     if status == "error":
         data_contract = utils.dict_contracts_value(id_agent=id_agent,
                                                    company_name=company_name,

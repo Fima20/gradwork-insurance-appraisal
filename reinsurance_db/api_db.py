@@ -74,6 +74,14 @@ def complex_update_contract(id_agent=None,
                             contract_insurance_payment=None,
                             contract_date_start=None,
                             contract_date_stop=None):
+    try:
+        if float(insurance_type_capital) < 0 or float(insurance_type_capital) > 9999999999 or float(
+                contract_insurance_amount) < 0 or float(contract_insurance_amount) > 9999999999 or float(
+                contract_insurance_payment) < 0 or float(contract_insurance_payment) > 9999999999:
+            return "error", None
+    except:
+        return "error", None
+
     id_company = getid_company(name=company_name)
     if id_company:
         company_create = update_company(name=company_name, idcompany=id_company)
@@ -267,6 +275,19 @@ def add_contract(connection,
 
 
 @db_connect
+def add_payment(connection,
+                id_contract="",
+                id_unit="",
+                date="",
+                sum=""):
+    with connection.cursor() as cursor:
+        cursor.execute(f"INSERT INTO payment (id_contract, id_unit, date, sum)"
+                       f"VALUES ('{id_contract}', '{id_unit}', '{date}', '{sum}');")
+
+    return True
+
+
+@db_connect
 def update_client(connection,
                   name="",
                   surname="",
@@ -321,6 +342,19 @@ def update_contract(connection,
         cursor.execute(f"UPDATE contract SET id_client='{id_client}', id_company='{id_company}', id_unit='{id_unit}', "
                        f"id_insurance_type='{id_insurance_type}', id_agent='{id_agent}', "
                        f"insurance_amount='{insurance_amount}', insurance_payment='{insurance_payment}', date_start='{date_start}', date_stop='{date_stop}' WHERE idcontract={idcontract};")
+
+    return True
+
+
+@db_connect
+def update_payment(connection,
+                   id_contract="",
+                   id_unit="",
+                   date="",
+                   sum=""):
+    with connection.cursor() as cursor:
+        cursor.execute(
+            f"UPDATE payment SET id_contract='{id_contract}', id_unit='{id_unit}', date='{date}', sum='{sum}'")
 
     return True
 

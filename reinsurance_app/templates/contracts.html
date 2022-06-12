@@ -30,7 +30,7 @@
           {% for data_contract in data_contract_list %}
           <li class="width-block">
             <a class="panel-block width-block" href="{{url_for('main.contracts_edit_id', id_contract=data_contract['idcontract'])}}">
-              {{data_contract['idcontract']}} {{data_contract['company']['name']}} {{data_contract['insurance_type']['short_title']}}
+              {{data_contract['company']['name']}} {{data_contract['insurance_type']['short_title']}}
               {{data_contract['client']['surname']}} {{data_contract['client']['name'][0]}}.{{data_contract['client']['sec_name'][0]}}.
               {{data_contract['agent']['surname']}}
             </a>

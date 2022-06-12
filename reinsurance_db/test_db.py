@@ -3,9 +3,12 @@ from config import host, user, password, db_name
 import processing_db
 import api_db
 
-#processing_db.rebuild()
-processing_db.db_filling_contracts(num_contracts=5)
-#print(api_db.get_full_contract(id_contract=30))
+processing_db.rebuild()
+processing_db.create_default_user()
+processing_db.db_filling_contracts(count=500)
+processing_db.db_filling_payment(count=5)
+# print(api_db.get_full_contract(id_contract=30))
+
 
 # try:
 #     connection = psycopg2.connect(
@@ -40,4 +43,3 @@ processing_db.db_filling_contracts(num_contracts=5)
 #     if connection:
 #         connection.close()
 #         print("[INFO] PostgreSQL connection closed")
-

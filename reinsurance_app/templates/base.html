@@ -16,15 +16,15 @@
 
 {% if contract_status=="update" %}
 
-    <div class="notification is-link ">
+    <div class="notification is-link notice-wrapper">
         Договор успешно обновлен
     </div>
 {% elif contract_status=="create" %}
-    <div class="notification is-success ">
+    <div class="notification is-success notice-wrapper">
         Договор успешно добавлен
     </div>
 {% elif contract_status=="error" %}
-    <div class="notification is-danger ">
+    <div class="notification is-danger notice-wrapper">
         Произошла ошибка добавления или обновления договора. Проверьте поля заполнения.
     </div>
 {% endif %}

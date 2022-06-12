@@ -4,6 +4,8 @@ from russian_names import RussianNames
 import api_db
 import random
 from datetime import datetime, timedelta
+import time
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 def gen_datetime(min_year=1900, max_year=datetime.now().year):
@@ -23,26 +25,33 @@ def rebuild():
     api_db.db_command(command=str_command)
 
 
-def db_filling_contracts(num_contracts=10):
+def create_default_user():
+    api_db.add_agent(name="Олег",
+                     surname="Смирнов",
+                     sec_name="Антонович",
+                     login="ad",
+                     hash_password=generate_password_hash("ad"),
+                     qualification="Специалист первой категории"
+                     )
 
 
-    KF = 0.004254
-    dif_kf = 0.1
-    max_month = 24
-
-
+def db_filling_contracts(count=10,
+                         KF=0.004254,
+                         dif_kf=0.1,
+                         max_month=24
+                         ):
     id_agent = 1
     company_name = "ГосСтрах"
     title = "Автострахование ОСАГО"
     short_title = "ОСАГО"
     capital = 14580000
 
-    for i in range(num_contracts):
+    for i in range(count):
 
-        insurance_amount = random.randint(1000, 99999)*100
-        insurance_payment = insurance_amount*KF+(insurance_amount*KF*random.uniform(-dif_kf, dif_kf))
+        insurance_amount = random.randint(1000, 99999) * 100
+        insurance_payment = insurance_amount * KF + (insurance_amount * KF * random.uniform(-dif_kf, dif_kf))
         date_start = gen_datetime(min_year=2020, max_year=2022)
-        date_stop = date_start + timedelta(days=30*random.randint(1,max_month))
+        date_stop = date_start + timedelta(days=30 * random.randint(1, max_month))
 
         date_start = str(date_start)
         date_stop = str(date_stop)
@@ -82,7 +91,7 @@ def db_filling_contracts(num_contracts=10):
         else:
             contract_create = api_db.add_insurance_type(title=title,
                                                         short_title=short_title,
-                                                        capital=capital,)
+                                                        capital=capital, )
             id_insurance_type = api_db.getid_insurance_type(title=title)
 
         id_unit = api_db.getid_default_unit()
@@ -109,4 +118,33 @@ def db_filling_contracts(num_contracts=10):
                                 insurance_payment=insurance_payment,
                                 date_start=date_start,
                                 date_stop=date_stop)
+
+
+def db_filling_payment(count=10,
+                       probability=0.05
+                       ):
+    def str_time_prop(start, end, time_format, prop):
+        stime = time.mktime(time.strptime(start, time_format))
+        etime = time.mktime(time.strptime(end, time_format))
+        ptime = stime + prop * (etime - stime)
+        return time.strftime(time_format, time.localtime(ptime))
+
+    all_contracts = api_db.get_contracts()
+    id_unit = api_db.getid_default_unit()
+
+    for iter_contract in all_contracts:
+
+        random_probability = random.uniform(0, 1)
+        if random_probability < probability:
+            id_contract = iter_contract[0]
+            date_start = str(iter_contract[8])
+            date_stop = str(iter_contract[9])
+            date_payment = str_time_prop(date_start, date_stop, '%Y-%m-%d', random.random())
+            payment = float(iter_contract[6])
+
+            api_db.add_payment(id_contract=id_contract,
+                               id_unit=id_unit,
+                               date=date_payment,
+                               sum=payment)
+
 
