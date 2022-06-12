@@ -15,17 +15,16 @@
 </head>
 
 {% if contract_status=="update" %}
-
     <div class="notification is-link notice-wrapper">
-        Договор успешно обновлен
+        Данные успешно обновлены
     </div>
 {% elif contract_status=="create" %}
     <div class="notification is-success notice-wrapper">
-        Договор успешно добавлен
+        Данные успешно добавлены
     </div>
 {% elif contract_status=="error" %}
     <div class="notification is-danger notice-wrapper">
-        Произошла ошибка добавления или обновления договора. Проверьте поля заполнения.
+        Произошла ошибка. Проверьте поля заполнения.
     </div>
 {% endif %}
 
@@ -54,7 +53,7 @@
                             <a href="{{ url_for('main.profile') }}" class="navbar-item may">
                                 Выплаты
                             </a>
-                            <a href="{{ url_for('main.profile') }}" class="navbar-item may">
+                            <a href="{{ url_for('reanalysis.analysis') }}" class="navbar-item may">
                                 Оценка
                             </a>
                             <a href="{{ url_for('main.profile') }}" class="navbar-item may">

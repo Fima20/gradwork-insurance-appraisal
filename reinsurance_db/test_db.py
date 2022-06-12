@@ -5,8 +5,8 @@ import api_db
 
 processing_db.rebuild()
 processing_db.create_default_user()
-processing_db.db_filling_contracts(count=500)
-processing_db.db_filling_payment(count=5)
+processing_db.db_filling_contracts(count=2000)
+processing_db.db_filling_payment(probability=1/600)
 # print(api_db.get_full_contract(id_contract=30))
 
 

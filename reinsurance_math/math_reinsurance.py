@@ -62,15 +62,17 @@ def forecasting(capital_lesion: [float],
     if PERIOD_WORK_MONTH:
         pass
     elif len(capital_lesion) > len(sum_contracts):
-        PERIOD_WORK_MONTH = len(sum_contracts)
+        PERIOD_WORK_MONTH = int(len(sum_contracts))
     else:
-        PERIOD_WORK_MONTH = len(capital_lesion)
+        PERIOD_WORK_MONTH = int(len(capital_lesion))
 
-    sum_contracts = sum_contracts[-PERIOD_WORK_MONTH, -1]
-    capital_lesion = capital_lesion[-PERIOD_WORK_MONTH, -1]
+    sum_contracts = sum_contracts[-PERIOD_WORK_MONTH:-1]
+    capital_lesion = capital_lesion[-PERIOD_WORK_MONTH:-1]
 
-    smooth_capital_lesion = smoothing_middle(capital_lesion, SMOOTH_INTER)
-    budget_lesion_prediction = model_arima(smooth_capital_lesion, PERIOD_PREDICTION_MONTH)
+    #smooth_capital_lesion = smoothing_middle(capital_lesion, SMOOTH_INTER)
+    #budget_lesion_prediction = model_arima(smooth_capital_lesion, PERIOD_PREDICTION_MONTH)
+    budget_lesion_prediction = lesion_prediction(capital_lesion, PERIOD_PREDICTION_MONTH)
+    #budget_lesion_prediction = model_arima(capital_lesion, PERIOD_PREDICTION_MONTH)
 
     smooth_sum_contracts = smoothing_middle(sum_contracts, SMOOTH_INTER)
     sum_contracts_prediction = model_holt_winters(smooth_sum_contracts, PERIOD_PREDICTION_MONTH)
@@ -78,6 +80,22 @@ def forecasting(capital_lesion: [float],
     res_budget = [last_budget]
     for iter in range(PERIOD_PREDICTION_MONTH):
         diff_budget_income = sum_contracts_prediction[iter] * KF / 12
+        #diff_budget_income = sum_contracts_prediction[iter] * KF
         res_budget.append(res_budget[iter] + diff_budget_income - budget_lesion_prediction[iter])
 
     return res_budget, budget_lesion_prediction, sum_contracts_prediction
+
+
+def lesion_prediction(lesion, PERIOD_PREDICTION_MONTH):
+    res = []
+    lesion = lesion[-15:-1]
+    len_lesion = len(lesion)
+    for iter in range(PERIOD_PREDICTION_MONTH):
+        if iter >= len_lesion:
+            cout = iter % len_lesion
+        else:
+            cout = iter
+        print(iter, len_lesion, cout)
+        res.append(lesion[cout])
+    return res
+

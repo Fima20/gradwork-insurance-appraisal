@@ -15,6 +15,7 @@ from reinsurance_db import api_db
 
 from auth import auth as auth_blueprint
 from main import main as main_blueprint
+from reanalysis import reanalysis as reanalysis_blueprint
 
 
 def create_app():
@@ -26,6 +27,7 @@ def create_app():
 
     app.register_blueprint(auth_blueprint)
     app.register_blueprint(main_blueprint)
+    app.register_blueprint(reanalysis_blueprint)
 
     return app
 

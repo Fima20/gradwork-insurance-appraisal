@@ -5,12 +5,14 @@ import os
 import json
 import functools
 import time
+import datetime
 
 from flask import Blueprint, Flask, flash, request, session, redirect, url_for, render_template, send_from_directory
 from flask_cors import CORS, cross_origin
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import date, timedelta
 
 from reinsurance_db import api_db
 
@@ -143,7 +145,6 @@ def dict_contracts_value(id_agent=None,
                          contract_insurance_payment=None,
                          contract_date_start=None,
                          contract_date_stop=None):
-
     agent = api_db.get_agent(id_agent=id_agent)
 
     client = {'name': client_name,
@@ -173,3 +174,18 @@ def dict_contracts_value(id_agent=None,
                      'idcontract': None}
 
     return data_contract
+
+
+def list_month_period_back(date_start, date_real, par=10):
+    res = [date_start.strftime('%Y-%m')]
+    delta = date_real - date_start  # timedelta
+    if delta.days <= 0:
+        return None
+    date_iter = date_start
+    while date_iter < date_real:
+        str_date = date_iter.strftime('%Y-%m')
+        if str_date != res[-1]:
+            res.append(str_date)
+        date_iter = date_iter + datetime.timedelta(days=par)
+
+    return res

@@ -38,8 +38,9 @@ def create_default_user():
 def db_filling_contracts(count=10,
                          KF=0.004254,
                          dif_kf=0.1,
-                         max_month=24
-                         ):
+                         max_month=24,
+                         min_year=2016,
+                         max_year=2022):
     id_agent = 1
     company_name = "ГосСтрах"
     title = "Автострахование ОСАГО"
@@ -50,7 +51,7 @@ def db_filling_contracts(count=10,
 
         insurance_amount = random.randint(1000, 99999) * 100
         insurance_payment = insurance_amount * KF + (insurance_amount * KF * random.uniform(-dif_kf, dif_kf))
-        date_start = gen_datetime(min_year=2020, max_year=2022)
+        date_start = gen_datetime(min_year=min_year, max_year=max_year)
         date_stop = date_start + timedelta(days=30 * random.randint(1, max_month))
 
         date_start = str(date_start)
@@ -120,8 +121,7 @@ def db_filling_contracts(count=10,
                                 date_stop=date_stop)
 
 
-def db_filling_payment(count=10,
-                       probability=0.05
+def db_filling_payment(probability=1/600
                        ):
     def str_time_prop(start, end, time_format, prop):
         stime = time.mktime(time.strptime(start, time_format))

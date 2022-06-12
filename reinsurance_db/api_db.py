@@ -397,6 +397,13 @@ def get_insurance_type(connection, id_insurance_type):
 
 
 @db_connect
+def get_insurance_type_by_short_title(connection, short_title):
+    with connection.cursor() as cursor:
+        cursor.execute(f"SELECT * FROM insurance_type WHERE short_title='{short_title}';")
+        return cursor.fetchone()
+
+
+@db_connect
 def get_agent(connection, id_agent):
     with connection.cursor() as cursor:
         cursor.execute(f"SELECT * FROM agent WHERE idagent={id_agent};")
@@ -413,3 +420,41 @@ def get_full_contract(connection, id_contract):
                        f"contract.id_insurance_type=idinsurance_type AND idcontract={id_contract};")
 
         return cursor.fetchone()
+
+
+@db_connect
+def get_lesion_month(connection, short_title_insurance_type, date_month):
+    with connection.cursor() as cursor:
+        cursor.execute(f"SELECT SUM(sum) "
+                       f"FROM payment "
+                       f"JOIN contract ON payment.id_contract=contract.idcontract "
+                       f"JOIN insurance_type ON contract.id_insurance_type=insurance_type.idinsurance_type "
+                       f"WHERE date between date('{date_month}-01') and date('{date_month}-01') + interval '1 month' AND "
+                       f"insurance_type.short_title='{short_title_insurance_type}';")
+
+        return cursor.fetchone()
+
+
+@db_connect
+def get_sum_month(connection, short_title_insurance_type, date_month):
+    with connection.cursor() as cursor:
+        cursor.execute(f"SELECT SUM(insurance_amount) "
+                       f"FROM contract "
+                       f"JOIN insurance_type ON contract.id_insurance_type=insurance_type.idinsurance_type "
+                       f"WHERE date('{date_month}-01') between date_start and date_stop AND "
+                       f"insurance_type.short_title='{short_title_insurance_type}';")
+
+        return cursor.fetchone()
+
+
+@db_connect
+def get_kf_insurance_type(connection, short_title_insurance_type):
+    with connection.cursor() as cursor:
+        cursor.execute(f"SELECT SUM(insurance_payment)/SUM(insurance_amount) "
+                       f"FROM contract "
+                       f"JOIN insurance_type ON contract.id_insurance_type=insurance_type.idinsurance_type "
+                       f"WHERE insurance_type.short_title='{short_title_insurance_type}';")
+
+        return cursor.fetchone()
+
+

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form method="POST" action="/analysis">
+
+<div class="columns">
+
+  <div class="column is-half">
+    <p class="box frame-white" style="font-weight: normal;">
+        Данные оценки
+    </p>
+
+    <div class="box black-font frame-white box data">
+
+      <div class="field">
+        <label class="label">Вид страхования</label>
+        <input class="input" type="text" name="type_insurance_small_name" placeholder="Краткое наименование вида страхования">
+      </div>
+
+      <div class="field">
+        <label class="label">Минимально допустимый доход</label>
+        <input class="input" type="number" name="mdd" placeholder="Минимально допустимый доход" min="0" max="99999999">
+      </div>
+
+      <div class="field">
+        <label class="label">Период оценки (мес)</label>
+        <input class="input" type="number" name="period" placeholder="Период прогноза в месяцах" min="6" max="50">
+      </div>
+
+    </div>
+  </div>
+
+  <div class="column" style="font-weight: normal;">
+    <p class="box frame-white" style="font-weight: normal;">
+        Параметры оценки
+    </p>
+
+    <div class="box black-font frame-white box data">
+      <div class="field">
+        <label class="label">Коэффициент страхования </label>
+        <input class="input" type="number" name="kf" placeholder="Можно оставить пустым и система расчитает его за вас" min="0" max="1">
+      </div>
+
+      <div class="field">
+        <label class="label">Шаг сглаживания </label>
+        <input class="input" type="number" name="smooth_inter" placeholder="Можно оставить пустым и система расчитает его за вас" min="1" max="5">
+      </div>
+
+      <div class="field">
+        <label class="label">Рабочий период </label>
+        <input class="input" type="number" name="work_month" placeholder="Можно оставить пустым и система расчитает его за вас" min="30" max="100">
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<button class="button is-block is-outlined is-fullwidth button-blue white-font">Произвести прогноз и оценку вида деятельности</button>
+
+</form>
+
+
+
+{% endblock %}
