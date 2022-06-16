@@ -13,6 +13,11 @@ from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import date, timedelta
+from bokeh.models import (HoverTool, FactorRange, Plot, LinearAxis, Grid, Range1d)
+from bokeh.models.glyphs import VBar
+from bokeh.plotting import figure
+from bokeh.embed import components
+from bokeh.models.sources import ColumnDataSource
 
 from reinsurance_db import api_db
 
@@ -176,6 +181,35 @@ def dict_contracts_value(id_agent=None,
     return data_contract
 
 
+def dict_analysis_value(period_month=None,
+                        capital_start=None,
+                        capital_prediction=None,
+                        mdd=None,
+                        factor=None,
+                        kf=None,
+                        kf_prediction=None,
+                        profit=None):
+
+    if profit < 0:
+        anal = "Убыток"
+    else:
+        anal = "Прибыль"
+
+    data_analysis = {'date_now': datetime.datetime.now().strftime("%Y-%m-%d"),
+                     'date_forecast': (datetime.datetime.now() + datetime.timedelta(days=period_month*30)).strftime("%Y-%m-%d"),
+                     'capital_start': capital_start,
+                     'capital_prediction': capital_prediction,
+                     'mdd': mdd,
+                     'profit': profit,
+                     'period_month': period_month,
+                     'factor': factor,
+                     'kf': kf,
+                     'kf_prediction': kf_prediction,
+                     'anal': anal,}
+
+    return data_analysis
+
+
 def list_month_period_back(date_start, date_real, par=10):
     res = [date_start.strftime('%Y-%m')]
     delta = date_real - date_start  # timedelta
@@ -189,3 +223,42 @@ def list_month_period_back(date_start, date_real, par=10):
         date_iter = date_iter + datetime.timedelta(days=par)
 
     return res
+
+
+def create_bar_chart(data, title, x_name, y_name, hover_tool=None,
+                     width=1200, height=300):
+    """Создаёт столбчатую диаграмму.
+        Принимает данные в виде словаря, подпись для графика,
+        названия осей и шаблон подсказки при наведении.
+    """
+    source = ColumnDataSource(data)
+    xdr = FactorRange(factors=data[x_name])
+    ydr = Range1d(start=0, end=max(data[y_name]) * 1.5)
+
+    tools = []
+    if hover_tool:
+        tools = [hover_tool]
+
+    plot = figure(title=title, x_range=xdr, y_range=ydr, plot_width=width,
+                  plot_height=height, h_symmetry=False, v_symmetry=False,
+                  min_border=0, toolbar_location="above", tools=tools,
+                  responsive=True, outline_line_color="#666666")
+
+    glyph = VBar(x=x_name, top=y_name, bottom=0, width=.8,
+                 fill_color="#e12127")
+    plot.add_glyph(source, glyph)
+
+    xaxis = LinearAxis()
+    yaxis = LinearAxis()
+
+    plot.add_layout(Grid(dimension=0, ticker=xaxis.ticker))
+    plot.add_layout(Grid(dimension=1, ticker=yaxis.ticker))
+    plot.toolbar.logo = None
+    plot.min_border_top = 0
+    plot.xgrid.grid_line_color = None
+    plot.ygrid.grid_line_color = "#999999"
+    plot.yaxis.axis_label = "Bugs found"
+    plot.ygrid.grid_line_alpha = 0.1
+    plot.xaxis.axis_label = "Days after app deployment"
+    plot.xaxis.major_label_orientation = 1
+    return plot

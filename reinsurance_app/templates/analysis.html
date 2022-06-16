@@ -61,6 +61,54 @@
 
 </form>
 
+{% if data_analysis and not contract_status=="error" %}
+
+<div class="box frame-white">
+
+<div class="columns">
+
+  <div class="column is-half">
+    <p style="font-weight: normal;">
+        Текущая дата - {{ data_analysis['date_now'] }}
+    </p>
+    <p style="font-weight: normal;">
+        Стартовый капитал - {{ data_analysis['capital_start'] }}
+    </p>
+    <p style="font-weight: normal;">
+        МДД - {{ data_analysis['mdd'] }}
+    </p>
+    <p style="font-weight: normal;">
+        Период (мес) - {{ data_analysis['period_month'] }}
+    </p>
+    <p style="font-weight: normal;">
+        Текущий коэфициент - {{ data_analysis['kf'] }}
+    </p>
+  </div>
+
+
+  <div class="column" style="font-weight: normal;">
+    <p style="font-weight: normal;">
+        Дата прогноза - {{ data_analysis['date_forecast'] }}
+    </p>
+    <p style="font-weight: normal;">
+        Предполагаемый капитал - {{ data_analysis['capital_prediction'] }}
+    </p>
+    <p style="font-weight: normal;">
+        Оценка - {{ data_analysis['anal'] }}
+    </p>
+    <p style="font-weight: normal;">
+        Рекомендуемый множитель - {{ data_analysis['factor'] }}
+    </p>
+    <p style="font-weight: normal;">
+        Рекомендуемый коэфициент - {{ data_analysis['kf_prediction'] }}
+    </p>
+  </div>
+
+</div>
+</div>
+
+{% endif %}
+
 
 
 {% endblock %}

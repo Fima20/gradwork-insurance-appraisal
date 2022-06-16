@@ -71,6 +71,7 @@ def forecasting(capital_lesion: [float],
 
     #smooth_capital_lesion = smoothing_middle(capital_lesion, SMOOTH_INTER)
     #budget_lesion_prediction = model_arima(smooth_capital_lesion, PERIOD_PREDICTION_MONTH)
+
     budget_lesion_prediction = lesion_prediction(capital_lesion, PERIOD_PREDICTION_MONTH)
     #budget_lesion_prediction = model_arima(capital_lesion, PERIOD_PREDICTION_MONTH)
 
@@ -80,7 +81,6 @@ def forecasting(capital_lesion: [float],
     res_budget = [last_budget]
     for iter in range(PERIOD_PREDICTION_MONTH):
         diff_budget_income = sum_contracts_prediction[iter] * KF / 12
-        #diff_budget_income = sum_contracts_prediction[iter] * KF
         res_budget.append(res_budget[iter] + diff_budget_income - budget_lesion_prediction[iter])
 
     return res_budget, budget_lesion_prediction, sum_contracts_prediction
@@ -95,7 +95,6 @@ def lesion_prediction(lesion, PERIOD_PREDICTION_MONTH):
             cout = iter % len_lesion
         else:
             cout = iter
-        print(iter, len_lesion, cout)
         res.append(lesion[cout])
     return res
 

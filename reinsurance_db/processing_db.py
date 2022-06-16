@@ -9,7 +9,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 
 def gen_datetime(min_year=1900, max_year=datetime.now().year):
-    # generate a datetime in format yyyy-mm-dd hh:mm:ss.000000
     start = datetime(min_year, 1, 1)
     years = max_year - min_year + 1
     end = start + timedelta(days=365 * years)
@@ -40,7 +39,9 @@ def db_filling_contracts(count=10,
                          dif_kf=0.1,
                          max_month=24,
                          min_year=2016,
-                         max_year=2022):
+                         max_year=2022,
+                         min_sum=int(30000/100),
+                         max_sum=int(3000000/100)):
     id_agent = 1
     company_name = "ГосСтрах"
     title = "Автострахование ОСАГО"
@@ -49,7 +50,7 @@ def db_filling_contracts(count=10,
 
     for i in range(count):
 
-        insurance_amount = random.randint(1000, 99999) * 100
+        insurance_amount = random.randint(min_sum, max_sum) * 100
         insurance_payment = insurance_amount * KF + (insurance_amount * KF * random.uniform(-dif_kf, dif_kf))
         date_start = gen_datetime(min_year=min_year, max_year=max_year)
         date_stop = date_start + timedelta(days=30 * random.randint(1, max_month))
